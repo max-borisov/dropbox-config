@@ -1,0 +1,55 @@
+# Edit this file to introduce tasks to be run by cron.
+# 
+# Each task to run has to be defined through a single line
+# indicating with different fields when the task will be run
+# and what command to run for the task
+# 
+# To define the time you can provide concrete values for
+# minute (m), hour (h), day of month (dom), month (mon),
+# and day of week (dow) or use '*' in these fields (for 'any').# 
+# Notice that tasks will be started based on the cron's system
+# daemon's notion of time and timezones.
+# 
+# Output of the crontab jobs (including errors) is sent through
+# email to the user the crontab file belongs to (unless redirected).
+# 
+# For example, you can run a backup of all your user accounts
+# at 5 a.m every week with:
+# 0 5 * * 1 tar -zcf /var/backups/home.tgz /home/
+# 
+# For more information see the manual pages of crontab(5) and cron(8)
+# 
+# m h  dom mon dow   command
+
+#mysql backup
+#0 6,9,12,15,18,21,0,3 * * * /var/www/ontris.com/protected/shell/prod/db_backup.sh
+0 0 * * * /var/www/ontris.com/protected/shell/prod/db_backup.sh
+
+#mysql backup to github
+#0 6 * * * /var/www/ontris.com/protected/shell/prod/db_backup_github.sh
+
+# Mail queue
+# Every 5 minutes. Emails with top priority
+*/5 * * * * /var/www/ontris.com/protected/shell/prod/mail_queue.sh TOP
+# Every 15 minutes
+*/15 * * * * /var/www/ontris.com/protected/shell/prod/mail_queue.sh
+
+# History
+
+# At midnight. Orders not attached to any trip.
+15 0 * * * /var/www/ontris.com/protected/shell/prod/history_orders.sh
+
+# Every 15 minutes. Orders attached to trips.
+*/15 * * * * /var/www/ontris.com/protected/shell/prod/history_orders_attached_to_trips.sh
+
+# Every 15 minutes. Empty trips, with no orders attached.
+*/15 * * * * /var/www/ontris.com/protected/shell/prod/history_trips.sh
+
+# Start all parser
+0 6,18 * * * /var/www/marketplace.vardumper.com/shell/parser-all.sh
+
+# DBA items parser
+0 6,9,12,15,18,21 * * * /var/www/marketplace.vardumper.com/shell/parser-items-dba.sh
+
+# Make nerds DB dump
+0 10,12,18,23 * * * /var/www/nerds.vardumper.com/console/shell/backup-db.sh nerds
